@@ -34,7 +34,6 @@ def predict(network, x):
 
 x, t = get_data()
 network = init_network()
-
 batch_size = 100 # 배치 크기
 accuracy_cnt = 0
 

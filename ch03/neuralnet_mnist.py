@@ -13,6 +13,8 @@ def get_data():
 
 
 def init_network():
+    # 미리 저장되어 있는 학습된 가중치 매개변수를 읽음 
+    # 가중치와 편향 매개변수가 딕셔너리 변수로 저장되어 있음 
     with open("sample_weight.pkl", 'rb') as f:
         network = pickle.load(f)
     return network
@@ -34,6 +36,8 @@ def predict(network, x):
 
 x, t = get_data()
 network = init_network()
+
+
 accuracy_cnt = 0
 for i in range(len(x)):
     y = predict(network, x[i])
