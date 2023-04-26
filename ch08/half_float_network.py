@@ -26,3 +26,10 @@ for param in network.params.values():
 
 print("caluculate accuracy (float16) ... ")
 print(network.accuracy(x_test, t_test))
+
+
+
+# 64 비트를 사용 -> 0.9935
+# 16 비트를 사용 -> 0.9935
+
+# 정확도 차이 거의 없이 계산량을 줄일 수 있음

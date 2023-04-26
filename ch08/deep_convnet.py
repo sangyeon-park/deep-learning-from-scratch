@@ -42,41 +42,58 @@ class DeepConvNet:
 
         # 계층 생성===========
         self.layers = []
+        # (N,1,28,28)
         self.layers.append(Convolution(self.params['W1'], self.params['b1'], 
                            conv_param_1['stride'], conv_param_1['pad']))
         self.layers.append(Relu())
+        # (N,16,28,28)
         self.layers.append(Convolution(self.params['W2'], self.params['b2'], 
                            conv_param_2['stride'], conv_param_2['pad']))
         self.layers.append(Relu())
+        # (N,16,28,28)
         self.layers.append(Pooling(pool_h=2, pool_w=2, stride=2))
+        # (N,16,14,14)
         self.layers.append(Convolution(self.params['W3'], self.params['b3'], 
                            conv_param_3['stride'], conv_param_3['pad']))
         self.layers.append(Relu())
+        # (N,32,14,14)
         self.layers.append(Convolution(self.params['W4'], self.params['b4'],
                            conv_param_4['stride'], conv_param_4['pad']))
         self.layers.append(Relu())
+        # (N,32,16,16)
         self.layers.append(Pooling(pool_h=2, pool_w=2, stride=2))
+        # (N,32,8,8)
         self.layers.append(Convolution(self.params['W5'], self.params['b5'],
                            conv_param_5['stride'], conv_param_5['pad']))
         self.layers.append(Relu())
+        # (N,64,8,8)
         self.layers.append(Convolution(self.params['W6'], self.params['b6'],
                            conv_param_6['stride'], conv_param_6['pad']))
         self.layers.append(Relu())
+        # (N,64,8,8)
         self.layers.append(Pooling(pool_h=2, pool_w=2, stride=2))
+        # (N,64,4,4) ==> (N,64*4*4)=(N, 1024)
         self.layers.append(Affine(self.params['W7'], self.params['b7']))
         self.layers.append(Relu())
+        # (N, 50)
         self.layers.append(Dropout(0.5))
         self.layers.append(Affine(self.params['W8'], self.params['b8']))
         self.layers.append(Dropout(0.5))
+        # (N, 10)
         
         self.last_layer = SoftmaxWithLoss()
+        # (N, 10), sum(self.last_layer) = 1 since they are probabilities.
 
+        
     def predict(self, x, train_flg=False):
         for layer in self.layers:
-            if isinstance(layer, Dropout):
+            if isinstance(layer, Dropout):  # layer가 Dropout일 경우 
                 x = layer.forward(x, train_flg)
             else:
                 x = layer.forward(x)
+            # 합성곱 계산 도중 shape 변화를 보기 위해 print
+            # print(layer)
+            # print("shape of x:", x.shape)
         return x
 
     def loss(self, x, t):
