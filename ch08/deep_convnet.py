@@ -91,8 +91,9 @@ class DeepConvNet:
                 x = layer.forward(x, train_flg)
             else:
                 x = layer.forward(x)
-            print(layer)
-            print("shape of x:", x.shape)
+            # 합성곱 계산 도중 shape 변화를 보기 위해 print
+            # print(layer)
+            # print("shape of x:", x.shape)
         return x
 
     def loss(self, x, t):
